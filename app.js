@@ -491,7 +491,7 @@ function finishCelebration() {
         });
         
         setTimeout(() => {
-            elements.messageText.innerHTML = '🎉 Happy Birthday Rimi! 🎉<br><small>Hope you enjoyed your special celebration!</small>';
+            elements.messageText.innerHTML = '🎉 Happy Birthday Mama! 🎉<br><small>Hope you enjoyed your special celebration!</small>';
             elements.messageText.style.animation = 'messageGlow 2s ease-in-out infinite, textSparkle 4s ease-in-out infinite';
         }, 3000);
         
