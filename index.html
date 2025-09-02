@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#667eea">
+    <title>Happy Birthday Mama! 🎉</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="loading-screen">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <h2 class="loading-text">Preparing something special...</h2>
+            <div class="loading-particles">
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Background Particles -->
+    <div class="floating-particles">
+        <div class="floating-particle"></div>
+        <div class="floating-particle"></div>
+        <div class="floating-particle"></div>
+        <div class="floating-particle"></div>
+        <div class="floating-particle"></div>
+        <div class="floating-particle"></div>
+    </div>
+
+    <!-- Audio Element -->
+    <audio id="birthdayAudio" preload="metadata">
+        <source src="hbd.mpeg" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1 class="nav-title">🎂 Birthday Celebration 🎂</h1>
+            </div>
+        </nav>
+
+        <!-- Bulbs Container -->
+        <div class="bulbs-container">
+            <div class="bulb yellow-bulb"></div>
+            <div class="bulb red-bulb"></div>
+            <div class="bulb blue-bulb"></div>
+            <div class="bulb green-bulb"></div>
+            <div class="bulb pink-bulb"></div>
+            <div class="bulb orange-bulb"></div>
+        </div>
+
+        <!-- Banner -->
+        <div id="banner" class="banner hidden">
+            <div class="banner-content">
+                <h1 class="banner-text">🎉 HAPPY BIRTHDAY MAMA! 🎉</h1>
+            </div>
+        </div>
+
+        <!-- Balloons Container -->
+        <div class="balloons-container">
+            <div class="balloon balloon-h" data-letter="H" style="--color: #F2B300;"></div>
+            <div class="balloon balloon-b" data-letter="B" style="--color: #0719D4;"></div>
+            <div class="balloon balloon-d" data-letter="D" style="--color: #D14D39;"></div>
+            <div class="balloon balloon-a" data-letter="A" style="--color: #8FAD00;"></div>
+            <div class="balloon balloon-y" data-letter="Y" style="--color: #8377E4;"></div>
+            <div class="balloon balloon-r" data-letter="M" style="--color: #99C96A;"></div>
+            <div class="balloon balloon-i1" data-letter="A" style="--color: #20CFB4;"></div>
+            <div class="balloon balloon-m" data-letter="M" style="--color: #D14D39;"></div>
+            <div class="balloon balloon-i2" data-letter="A" style="--color: #F2B300;"></div>
+        </div>
+
+        <!-- Cake Container -->
+        <div id="cake" class="cake-container hidden">
+            <div class="cake">
+                <div class="cake-layer cake-layer-3"></div>
+                <div class="cake-layer cake-layer-2"></div>
+                <div class="cake-layer cake-layer-1"></div>
+                <div class="candles">
+                    <div class="candle">
+                        <div class="flame hidden"></div>
+                    </div>
+                    <div class="candle">
+                        <div class="flame hidden"></div>
+                    </div>
+                    <div class="candle">
+                        <div class="flame hidden"></div>
+                    </div>
+                    <div class="candle">
+                        <div class="flame hidden"></div>
+                    </div>
+                    <div class="candle">
+                        <div class="flame hidden"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Messages Container -->
+        <div id="messagesContainer" class="messages-container hidden">
+            <div class="glass-card">
+                <div id="messageText" class="message-text"></div>
+                <div class="message-progress">
+                    <div class="progress-bar"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Audio Controls (Mobile) -->
+        <div id="audioControls" class="audio-controls hidden">
+            <div class="audio-info">
+                <span class="audio-icon">🎵</span>
+                <span class="audio-text">Birthday Music Playing</span>
+            </div>
+            <div class="audio-buttons">
+                <button id="pauseBtn" class="audio-btn">⏸️</button>
+                <button id="volumeBtn" class="audio-btn">🔊</button>
+            </div>
+        </div>
+
+        <!-- Confetti Container -->
+        <div class="confetti-container">
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+        </div>
+
+        <!-- Control Buttons -->
+        <div class="controls-container">
+            <button id="lightsBtn" class="control-btn btn--primary">
+                <span class="btn-icon">💡</span>
+                <span class="btn-text">Turn On Lights</span>
+                <div class="btn-ripple"></div>
+            </button>
+            <button id="musicBtn" class="control-btn btn--primary hidden">
+                <span class="btn-icon">🎵</span>
+                <span class="btn-text">Play Music</span>
+                <div class="btn-ripple"></div>
+            </button>
+            <button id="bannerBtn" class="control-btn btn--primary hidden">
+                <span class="btn-icon">🎊</span>
+                <span class="btn-text">Show Banner</span>
+                <div class="btn-ripple"></div>
+            </button>
+            <button id="balloonsBtn" class="control-btn btn--primary hidden">
+                <span class="btn-icon">🎈</span>
+                <span class="btn-text">Release Balloons</span>
+                <div class="btn-ripple"></div>
+            </button>
+            <button id="cakeBtn" class="control-btn btn--primary hidden">
+                <span class="btn-icon">🎂</span>
+                <span class="btn-text">Show Cake</span>
+                <div class="btn-ripple"></div>
+            </button>
+            <button id="candlesBtn" class="control-btn btn--primary hidden">
+                <span class="btn-icon">🕯️</span>
+                <span class="btn-text">Light Candles</span>
+                <div class="btn-ripple"></div>
+            </button>
+            <button id="messageBtn" class="control-btn btn--primary hidden">
+                <span class="btn-icon">💌</span>
+                <span class="btn-text">Show Message</span>
+                <div class="btn-ripple"></div>
+            </button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
