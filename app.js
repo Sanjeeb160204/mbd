@@ -14,6 +14,7 @@ const appData = {
     audioFile: "hbd.mpeg"
 };
 
+
 // Application State
 const appState = {
     currentStep: 0,
@@ -24,8 +25,10 @@ const appState = {
     audioMuted: false
 };
 
+
 // Updated button sequence (removed story button)
 const buttonSequence = ['lights', 'music', 'banner', 'balloons', 'cake', 'candles', 'message'];
+
 
 // DOM Elements
 const elements = {
@@ -54,30 +57,28 @@ const elements = {
     }
 };
 
+
 // Audio Management
 function setupAudio() {
     if (elements.audio) {
-        // Configure audio for mobile compatibility
         elements.audio.preload = 'metadata';
         elements.audio.loop = true;
         elements.audio.volume = 0.6;
-        
-        // Handle audio events
+
         elements.audio.addEventListener('loadeddata', () => {
             console.log('Audio loaded successfully');
         });
-        
+
         elements.audio.addEventListener('error', (e) => {
             console.log('Audio error:', e);
-            // Show audio controls anyway for fallback
             showAudioControls();
         });
-        
+
         elements.audio.addEventListener('play', () => {
             appState.audioPlaying = true;
             updateAudioControls();
         });
-        
+
         elements.audio.addEventListener('pause', () => {
             appState.audioPlaying = false;
             updateAudioControls();
@@ -93,20 +94,17 @@ function showAudioControls() {
 }
 
 function playBirthdayMusic() {
-    // Always show audio controls when music button is clicked
     showAudioControls();
-    
+
     if (elements.audio && !appState.audioPlaying) {
-        // Handle autoplay restrictions on mobile
         const playPromise = elements.audio.play();
-        
+
         if (playPromise !== undefined) {
             playPromise.then(() => {
                 appState.audioPlaying = true;
                 updateAudioControls();
             }).catch((error) => {
                 console.log('Audio autoplay blocked:', error);
-                // Show user interaction required message
                 showAudioMessage();
             });
         }
@@ -123,7 +121,6 @@ function updateAudioControls() {
 }
 
 function showAudioMessage() {
-    // Create a temporary message for audio interaction
     const audioMsg = document.createElement('div');
     audioMsg.className = 'audio-message';
     audioMsg.innerHTML = `
@@ -146,7 +143,7 @@ function showAudioMessage() {
         text-align: center;
         color: white;
     `;
-    
+
     const playBtn = audioMsg.querySelector('.audio-play-btn');
     playBtn.style.cssText = `
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -159,9 +156,9 @@ function showAudioMessage() {
         margin-top: 1rem;
         transition: all 0.3s ease;
     `;
-    
+
     document.body.appendChild(audioMsg);
-    
+
     playBtn.addEventListener('click', () => {
         elements.audio.play().then(() => {
             appState.audioPlaying = true;
@@ -169,7 +166,7 @@ function showAudioMessage() {
         });
         document.body.removeChild(audioMsg);
     });
-    
+
     setTimeout(() => {
         if (document.body.contains(audioMsg)) {
             document.body.removeChild(audioMsg);
@@ -177,7 +174,6 @@ function showAudioMessage() {
     }, 5000);
 }
 
-// Audio Context for Sound Effects
 function initializeAudio() {
     try {
         appState.audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -186,7 +182,6 @@ function initializeAudio() {
     }
 }
 
-// Sound Effect Generator
 function playSound(frequency, duration, type = 'sine') {
     if (!appState.audioContext) return;
     
@@ -210,14 +205,12 @@ function playSound(frequency, duration, type = 'sine') {
     }
 }
 
-// Haptic Feedback
 function simulateHaptic() {
     if (navigator.vibrate) {
         navigator.vibrate(50);
     }
 }
 
-// Touch Ripple Effect
 function createRipple(event, element) {
     const ripple = element.querySelector('.btn-ripple');
     const rect = element.getBoundingClientRect();
@@ -230,7 +223,6 @@ function createRipple(event, element) {
     ripple.style.top = y + 'px';
     ripple.style.transform = 'scale(0)';
     
-    // Trigger animation
     ripple.offsetHeight; // Force reflow
     ripple.style.transform = 'scale(4)';
     ripple.style.opacity = '0';
@@ -241,7 +233,6 @@ function createRipple(event, element) {
     }, 600);
 }
 
-// Loading Screen Animation
 function hideLoadingScreen() {
     setTimeout(() => {
         elements.loadingScreen.classList.add('hidden');
@@ -249,7 +240,6 @@ function hideLoadingScreen() {
         initializeAudio();
         setupAudio();
         
-        // Enable first button
         if (elements.buttons.lights) {
             elements.buttons.lights.style.opacity = '1';
             elements.buttons.lights.disabled = false;
@@ -257,12 +247,10 @@ function hideLoadingScreen() {
     }, 2500);
 }
 
-// Step Management
 function nextStep() {
     const currentButtonKey = buttonSequence[appState.currentStep];
     const currentButton = elements.buttons[currentButtonKey];
     
-    // Disable and fade current button
     if (currentButton) {
         currentButton.style.opacity = '0.5';
         currentButton.disabled = true;
@@ -270,10 +258,8 @@ function nextStep() {
         currentButton.style.filter = 'grayscale(1)';
     }
     
-    // Move to next step
     appState.currentStep++;
     
-    // Show next button if it exists
     if (appState.currentStep < buttonSequence.length) {
         const nextButtonKey = buttonSequence[appState.currentStep];
         const nextButton = elements.buttons[nextButtonKey];
@@ -285,8 +271,7 @@ function nextStep() {
                 nextButton.style.opacity = '1';
                 nextButton.disabled = false;
                 nextButton.style.pointerEvents = 'auto';
-                
-                // Scroll to button if needed (mobile)
+
                 if (window.innerWidth <= 480) {
                     nextButton.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }
@@ -295,7 +280,6 @@ function nextStep() {
     }
 }
 
-// Light Effects
 function turnOnLights() {
     if (appState.isAnimating) return;
     appState.isAnimating = true;
@@ -310,7 +294,6 @@ function turnOnLights() {
         }, index * 150);
     });
     
-    // Enhanced background effect
     setTimeout(() => {
         document.body.style.animation = 'gradientShift 10s ease infinite';
         appState.isAnimating = false;
@@ -318,7 +301,6 @@ function turnOnLights() {
     }, elements.bulbs.length * 150 + 400);
 }
 
-// Music Effects with Audio Integration
 function playMusic() {
     if (appState.isAnimating) return;
     appState.isAnimating = true;
@@ -326,18 +308,15 @@ function playMusic() {
     playSound(523, 0.4);
     simulateHaptic();
     
-    // Start birthday music and show controls
     playBirthdayMusic();
     
-    // Enhanced lighting effects
     elements.bulbs.forEach((bulb, index) => {
         setTimeout(() => {
             bulb.style.animation = `bulbGlow 0.6s ease-in-out infinite alternate, 
-                                   bulbPulse 1.5s ease-in-out infinite ${index * 0.2}s`;
+                                     bulbPulse 1.5s ease-in-out infinite ${index * 0.2}s`;
         }, index * 80);
     });
     
-    // Musical sequence
     const notes = [523, 587, 659, 698, 784];
     notes.forEach((note, index) => {
         setTimeout(() => {
@@ -351,7 +330,6 @@ function playMusic() {
     }, 1500);
 }
 
-// Banner Animation
 function showBanner() {
     if (appState.isAnimating) return;
     appState.isAnimating = true;
@@ -362,7 +340,6 @@ function showBanner() {
     elements.banner.classList.remove('hidden');
     elements.banner.classList.add('show');
     
-    // Add sparkle effect to banner text
     const bannerText = elements.banner.querySelector('.banner-text');
     if (bannerText) {
         bannerText.style.animation = 'textShimmer 2s linear infinite, textSparkle 3s ease-in-out infinite';
@@ -374,7 +351,6 @@ function showBanner() {
     }, 800);
 }
 
-// Balloon Animation
 function releaseBalloons() {
     if (appState.isAnimating) return;
     appState.isAnimating = true;
@@ -397,7 +373,6 @@ function releaseBalloons() {
     }, elements.balloons.length * 120 + 800);
 }
 
-// Cake Animation
 function showCake() {
     if (appState.isAnimating) return;
     appState.isAnimating = true;
@@ -414,7 +389,6 @@ function showCake() {
     }, 1000);
 }
 
-// Candle Lighting
 function lightCandles() {
     if (appState.isAnimating) return;
     appState.isAnimating = true;
@@ -435,7 +409,6 @@ function lightCandles() {
     }, elements.flames.length * 250 + 400);
 }
 
-// Combined Message Display and Story (Updated)
 function showMessage() {
     if (appState.isAnimating) return;
     appState.isAnimating = true;
@@ -443,22 +416,19 @@ function showMessage() {
     playSound(1000, 0.5, 'sine');
     simulateHaptic();
     
-    // Start confetti animation
     startConfetti();
     
     elements.messagesContainer.classList.remove('hidden');
     elements.messagesContainer.classList.add('show');
     
-    // Animate balloons to celebrate
     elements.balloons.forEach((balloon, index) => {
         setTimeout(() => {
             balloon.style.animation = `balloonFloat 3s ease-in-out infinite, 
-                                     balloonCelebrate 4s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite ${index * 0.15}s`;
+                                      balloonCelebrate 4s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite ${index * 0.15}s`;
             balloon.style.zIndex = '100';
         }, index * 80);
     });
     
-    // Start message sequence immediately
     setTimeout(() => {
         appState.messageIndex = 0;
         showNextMessage();
@@ -467,7 +437,6 @@ function showMessage() {
     appState.isAnimating = false;
 }
 
-// Message Animation Sequence
 function showNextMessage() {
     if (appState.messageIndex >= appData.messages.length) {
         finishCelebration();
@@ -483,7 +452,6 @@ function showNextMessage() {
         elements.messageText.style.opacity = '1';
         elements.messageText.style.transform = 'translateY(0) scale(1)';
         
-        // Update progress bar
         const progress = ((appState.messageIndex + 1) / appData.messages.length) * 100;
         elements.progressBar.style.width = `${progress}%`;
         
@@ -497,19 +465,16 @@ function showNextMessage() {
     }, 2200);
 }
 
-// Final Celebration
 function finishCelebration() {
     setTimeout(() => {
-        // Enhanced final celebration effect
         elements.balloons.forEach((balloon, index) => {
             setTimeout(() => {
                 balloon.style.animation = `balloonFloat 2s ease-in-out infinite, 
-                                         balloonCelebrate 3s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite ${index * 0.1}s`;
+                                          balloonCelebrate 3s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite ${index * 0.1}s`;
                 balloon.style.filter = 'brightness(1.2) saturate(1.4)';
             }, index * 60);
         });
         
-        // Enhanced bulb celebration
         elements.bulbs.forEach((bulb, index) => {
             setTimeout(() => {
                 bulb.style.animation = `bulbGlow 0.4s ease-in-out infinite alternate, 
@@ -518,7 +483,6 @@ function finishCelebration() {
             }, index * 50);
         });
         
-        // Final sound celebration
         const celebrationNotes = [523, 659, 784, 1047, 1319];
         celebrationNotes.forEach((note, index) => {
             setTimeout(() => {
@@ -526,7 +490,6 @@ function finishCelebration() {
             }, index * 150);
         });
         
-        // Show completion message
         setTimeout(() => {
             elements.messageText.innerHTML = '🎉 Happy Birthday Rimi! 🎉<br><small>Hope you enjoyed your special celebration!</small>';
             elements.messageText.style.animation = 'messageGlow 2s ease-in-out infinite, textSparkle 4s ease-in-out infinite';
@@ -535,7 +498,6 @@ function finishCelebration() {
     }, 800);
 }
 
-// Confetti Animation
 function startConfetti() {
     elements.confetti.forEach((piece, index) => {
         piece.style.animationDelay = `${index * 0.15}s`;
@@ -549,7 +511,7 @@ function startConfetti() {
     }, 4000);
 }
 
-// Event Listeners
+// Event Listeners with fix for Android touch issue
 function initializeEventListeners() {
     // Button event listeners
     elements.buttons.lights.addEventListener('click', turnOnLights);
@@ -595,6 +557,7 @@ function initializeEventListeners() {
         });
         
         button.addEventListener('touchend', (e) => {
+            // Removed e.preventDefault() to fix Android Chrome click issue
             setTimeout(() => {
                 e.target.style.transform = '';
             }, 100);
@@ -605,11 +568,6 @@ function initializeEventListeners() {
             if (!e.touches) {
                 createRipple(e, button);
             }
-        });
-        
-        // Prevent double-tap zoom on buttons
-        button.addEventListener('touchend', (e) => {
-            e.preventDefault();
         });
     });
     
@@ -639,25 +597,21 @@ function initializeEventListeners() {
     });
 }
 
-// Auto-resize handling for mobile optimization
 function handleResize() {
     const isMobile = window.innerWidth <= 480;
     const isPortrait = window.innerHeight > window.innerWidth;
     
     if (isMobile && isPortrait) {
-        // Adjust animations for mobile portrait
         elements.balloons.forEach(balloon => {
             if (balloon.classList.contains('float')) {
                 balloon.style.animationDuration = '2.5s';
             }
         });
         
-        // Adjust confetti for mobile
         elements.confetti.forEach(piece => {
             piece.style.animationDuration = '2s';
         });
         
-        // Adjust audio controls position
         if (elements.audioControls) {
             elements.audioControls.style.top = '55px';
             elements.audioControls.style.right = '0.8rem';
@@ -665,7 +619,6 @@ function handleResize() {
     }
 }
 
-// Swipe gesture handling
 let touchStartY = 0;
 let touchStartX = 0;
 
@@ -679,20 +632,19 @@ function handleTouchMove(e) {
     
     const touchEndY = e.touches[0].clientY;
     const touchEndX = e.touches[0].clientX;
-    
+
     const diffY = touchStartY - touchEndY;
     const diffX = touchStartX - touchEndX;
-    
+
     // Prevent pull-to-refresh on mobile
     if (diffY < 0 && window.scrollY <= 0) {
         e.preventDefault();
     }
 }
 
-// Keyboard shortcuts (for testing)
 function handleKeyPress(e) {
     if (appState.isAnimating) return;
-    
+
     const keyActions = {
         '1': () => appState.currentStep === 0 && turnOnLights(),
         '2': () => appState.currentStep === 1 && playMusic(),
@@ -702,31 +654,27 @@ function handleKeyPress(e) {
         '6': () => appState.currentStep === 5 && lightCandles(),
         '7': () => appState.currentStep === 6 && showMessage()
     };
-    
+
     if (keyActions[e.key]) {
         keyActions[e.key]();
     }
 }
 
-// Initialize Application
 document.addEventListener('DOMContentLoaded', () => {
     hideLoadingScreen();
     window.addEventListener('resize', handleResize);
     document.addEventListener('keypress', handleKeyPress);
     document.addEventListener('touchstart', handleTouchStart, { passive: false });
     document.addEventListener('touchmove', handleTouchMove, { passive: false });
-    
-    // Preload audio context on user interaction
+
     document.addEventListener('click', () => {
         if (!appState.audioContext) {
             initializeAudio();
         }
     }, { once: true });
-    
-    // Performance optimization for mobile
+
     if ('requestIdleCallback' in window) {
         requestIdleCallback(() => {
-            // Preload animations
             elements.balloons.forEach(balloon => {
                 balloon.style.willChange = 'transform, opacity, filter';
             });
@@ -735,20 +683,16 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
-    
-    // Set initial state
+
     handleResize();
 });
 
-// Service Worker Registration for better mobile experience
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-        // Register service worker for offline capability (if needed)
         console.log('PWA features available');
     });
 }
 
-// Prevent zoom on double tap for better mobile UX
 let lastTouchEnd = 0;
 document.addEventListener('touchend', (event) => {
     const now = (new Date()).getTime();
