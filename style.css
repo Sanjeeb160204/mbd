@@ -998,45 +998,56 @@ body {
 
 /* Banner */
 .banner {
-  background: var(--glass-bg);
-  backdrop-filter: blur(20px);
-  border: 1px solid var(--glass-border);
-  margin: var(--space-md);
-  border-radius: var(--border-radius);
-  box-shadow: var(--shadow-heavy);
-  overflow: hidden;
-  transform: translateY(-80px);
-  transition: var(--transition-bounce);
-}
-
-.banner.show {
-  transform: translateY(0);
-  animation: bannerBounce 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-}
-
-@keyframes bannerBounce {
-  0% { transform: translateY(-80px) scale(0.9); opacity: 0; }
-  50% { transform: translateY(5px) scale(1.02); }
-  100% { transform: translateY(0) scale(1); opacity: 1; }
-}
-
-.banner-content {
-  padding: var(--space-lg);
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border-radius: 20px;
+  padding: 1.5rem 2rem;
+  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.6);
   text-align: center;
+  position: relative;
+  overflow: hidden;
+  color: white;
+  font-weight: 700;
+  font-size: 1.8rem;
+  animation: bannerGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes bannerGlow {
+  0% {
+    box-shadow: 0 0 10px #667eea, 0 0 20px #764ba2;
+  }
+  100% {
+    box-shadow: 0 0 20px #667eea, 0 0 40px #764ba2;
+  }
 }
 
 .banner-text {
-  color: white;
-  font-size: 1.5rem;
-  font-weight: 700;
-  text-shadow: var(--text-shadow);
-  animation: textShimmer 2s linear infinite;
+  position: relative;
+  z-index: 2;
 }
 
-@keyframes textShimmer {
-  0% { filter: hue-rotate(0deg); }
-  100% { filter: hue-rotate(360deg); }
+/* Optional shimmer effect on banner text */
+.banner-text::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 200%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(255, 255, 255, 0.4) 50%,
+    transparent 100%
+  );
+  transform: skewX(-25deg);
+  animation: shimmer 3s infinite;
+  z-index: 1;
 }
+
+@keyframes shimmer {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
 
 /* Balloons - Mobile optimized */
 .balloons-container {
@@ -1106,19 +1117,19 @@ body {
 
 /* Cake - Scaled for mobile portrait */
 .cake-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: var(--space-md);
-  transform: scale(0);
-  transition: var(--transition-bounce);
-  margin-bottom: var(--space-md);
+  transform: none !important; /* Remove scaling that shrinks cake */
+  max-width: 320px; /* Restrict max size if needed */
+  margin: 0 auto;
+  padding: 1rem;
 }
 
-.cake-container.show {
-  transform: scale(0.4);
-  animation: cakeAppear 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+@media (max-width: 480px) {
+  .cake-container {
+    max-width: 280px;
+    padding: 0.5rem;
+  }
 }
+
 
 @keyframes cakeAppear {
   0% { transform: scale(0) rotate(-180deg); opacity: 0; }
